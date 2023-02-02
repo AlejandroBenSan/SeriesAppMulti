@@ -1,0 +1,42 @@
+ion-slides{
+    margin-top: 20px;
+}
+
+ion-content{
+    --background:linear-gradient(90deg, #b993d6, #8ca6db);
+}
+
+.imagenAvatar{
+    width: 80px;
+    height: 80px;
+}
+
+.slideCategorias{
+    background: linear-gradient(90deg, #b993d6, #8ca6db);
+}
+
+.categoriasSlide{
+    height: 100px;
+    background: linear-gradient(90deg, #b993d6, #8ca6db);
+}
+ion-card {
+    width: 300px;
+    height: 500px;
+    margin-left: 50px;
+    margin-right: 50px;
+    background-color: #2f0656;
+    border: 2px solid red;
+    border-radius: 40px;
+ }
+
+ ion-card-subtitle{
+    color:white
+ }
+
+ ion-card-title{
+    color: white
+ }
+
+ .objSlide{
+    height: 350px;
+ }

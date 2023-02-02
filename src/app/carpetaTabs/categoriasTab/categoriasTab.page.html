@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Categorías
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="colorFondo" [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Categorías</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="categoriasSlide">
+    <ion-slides class="slideCategorias" (ionSlideNextEnd)="filtarPorCategoriaPositiva()" (ionSlidePrevEnd)="filtarPorCategoriaNegativa()">
+      <ion-slide *ngFor="let c of categorias">
+        <label id="labelCategoria">{{c}}</label>
+        <img class="imagenAvatar" src={{enlacesAvatares[0]}}>
+      </ion-slide>
+    </ion-slides>
+  
+  </ion-content>
+  
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-card *ngFor="let s of seriesPorCategoria">
+      <ion-slides class="objSlide">
+        <ion-slide *ngFor="let imagen of s.image">
+          <img src={{imagen}}>
+        </ion-slide>
+      </ion-slides>
+      <ion-card-header>
+        <ion-card-title>{{s.title}}</ion-card-title>
+        <ion-card-subtitle>{{s.categories}}</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando más imágenes...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  
+
+</ion-content>
+

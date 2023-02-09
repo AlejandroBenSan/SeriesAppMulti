@@ -10,6 +10,4 @@ export interface SerieI{
     scoring: number;
     image: string[];
     numberImages: number;
-    numberCategories: number;
-    categoriaAbierta : boolean;
 }

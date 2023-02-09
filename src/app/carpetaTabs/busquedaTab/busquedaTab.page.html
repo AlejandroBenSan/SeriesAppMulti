@@ -1,17 +1,74 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Búsqueda
-    </ion-title>
+    <ion-title>Búsqueda</ion-title>
   </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar animated="true" placeholder="Serie" [(ngModel)]="nombreSerie" (keydown)="busquedaNombre()"></ion-searchbar>
+  </ion-toolbar>
+
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Búsqueda</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-card *ngFor="let s of seriesFiltradas" (click)="serieSeleccionada=s;modal.present()">
+      <ion-slides class="objSlide">
+        <ion-slide *ngFor="let imagen of s.image" >
+          <img src={{imagen}}>
+        </ion-slide>
+      </ion-slides>
+      <ion-card-header>
+        <ion-card-title>{{s.title}}</ion-card-title>
+        <ion-card-subtitle>{{s.categories}}</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando más series...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ion-modal #modal [enterAnimation]="enterAnimation" [leaveAnimation]="leaveAnimation">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Serie</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="modal.dismiss()">Volver</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-slides class="objSlide">
+          <ion-slide *ngFor="let imagen of serieSeleccionada.image" >
+            <img src={{imagen}}>
+          </ion-slide>
+        </ion-slides>
+        <h1 class="titulo">{{serieSeleccionada.title}}</h1>
+        <h3 class="textoCentrado">{{serieSeleccionada.categories}}</h3>
+        <h3 class="textoCentrado">Capitulos: <b>{{serieSeleccionada.chapters}}</b></h3>
+        <h3 class="textoCentrado">Año de emisión: <b>{{serieSeleccionada.year}}</b></h3>
+        <h3 class ="sinopsis"><b>Sinopsis: </b>{{serieSeleccionada.synopsis}}</h3>
+        <ion-item class="puntuacion">
+          <h2><b>Puntuación: </b></h2>
+          <ion-badge color="primary" style="font-size: large;">22k</ion-badge>
+        </ion-item>
+        <ion-button (click)="modalPuntuacion.present()" id="open-modal" expand="block" class="btnPuntuar" size="default">
+          <h5> Puntuar {{serieSeleccionada.title}}</h5>
+          <ion-icon slot="icon-only" name="star"></ion-icon>
+        </ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal #modalPuntuacion trigger="open-modal" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.25, 0.5]">
+    <ng-template>
+      <ion-content>
+        <input class="email" type="text" placeholder="Email">
+        <ion-range [ticks]="true" [snaps]="true" [min]="0" [max]="10"[(ngModel)]="voto"></ion-range>
+        <h3 class="textoCentrado">Mi voto: <b>{{voto}}</b></h3>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
 </ion-content>

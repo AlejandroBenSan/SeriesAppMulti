@@ -1,10 +1,28 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Categorías
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Información de la App</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <p>Creador: <b>Alejandro Benítez Sánchez</b></p>
+    <p>Año: <b>2023</b></p>
+    <p>Diseño: <b>Ionic / Angular</b></p>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Por Categoría
+
+      </ion-title>
+      
+    </ion-toolbar>
+  </ion-header>
 
 <ion-content class="colorFondo" [fullscreen]="true">
   <ion-header collapse="condense">
@@ -15,8 +33,7 @@
   <ion-content class="categoriasSlide">
     <ion-slides class="slideCategorias" (ionSlideNextEnd)="filtarPorCategoriaPositiva()" (ionSlidePrevEnd)="filtarPorCategoriaNegativa()">
       <ion-slide *ngFor="let c of categorias">
-        <label id="labelCategoria">{{c}}</label>
-        <img class="imagenAvatar" src={{enlacesAvatares[0]}}>
+        <label id="labelCategoria"><b>{{c}}</b></label>
       </ion-slide>
     </ion-slides>
   
@@ -25,7 +42,7 @@
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
     <ion-card *ngFor="let s of seriesPorCategoria">
       <ion-slides class="objSlide">
-        <ion-slide *ngFor="let imagen of s.image">
+        <ion-slide *ngFor="let imagen of s.image" (click)="serieSeleccionada=s;modal.present()">
           <img src={{imagen}}>
         </ion-slide>
       </ion-slides>
@@ -40,7 +57,65 @@
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
-  
+  <ion-modal #modal [enterAnimation]="enterAnimation" [leaveAnimation]="leaveAnimation">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Serie</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="modal.dismiss()">Volver</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="true">
+          <ion-fab-button>
+            <ion-icon name="chevron-down-circle"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list side="bottom">
+            <ion-fab-button>
+              <ion-icon name="logo-twitter"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button>
+              <ion-icon name="logo-facebook"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button>
+              <ion-icon name="logo-instagram"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+        <ion-slides class="objSlide">
+          <ion-slide *ngFor="let imagen of serieSeleccionada.image" >
+            <img src={{imagen}}>
+          </ion-slide>
+        </ion-slides>
+        <h1 class="titulo">{{serieSeleccionada.title}}</h1>
+        <h3 class="textoCentrado">{{serieSeleccionada.categories}}</h3>
+        <h3 class="textoCentrado">Capitulos: <b>{{serieSeleccionada.chapters}}</b></h3>
+        <h3 class="textoCentrado">Año de emisión: <b>{{serieSeleccionada.year}}</b></h3>
+        <h3 class ="sinopsis"><b>Sinopsis: </b>{{serieSeleccionada.synopsis}}</h3>
+        <ion-item class="puntuacion">
+          <h2><b>Puntuación: </b></h2>
+          <ion-badge color="primary" style="font-size:xx-large;">{{calcularMediaNota(serieSeleccionada)}}</ion-badge>
+        </ion-item>
+        <ion-button (click)="serieVoto=serieSeleccionada;modalPuntuacion.present()" id="open-modal" expand="block" class="btnPuntuar" size="default">
+          <h5> Puntuar {{serieSeleccionada.title}}</h5>
+          <ion-icon slot="icon-only" name="star"></ion-icon>
+        </ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal #modalPuntuacion trigger="open-modal" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.25, 0.5]">
+    <ng-template>
+      <ion-content>
+        <input id="emailVoto" class="email" type="text" placeholder="Email">
+        <ion-range [ticks]="true" [snaps]="true" [min]="0" [max]="10"[(ngModel)]="voto"></ion-range>
+        <h3 class="textoCentrado">Mi voto: <b>{{voto}}</b></h3>
+        <ion-button class="btnPuntuar" (click)="guardarPuntuacion(serieVoto._id)">Puntuar</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 
 </ion-content>
 

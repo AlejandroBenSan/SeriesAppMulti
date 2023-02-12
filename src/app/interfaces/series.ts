@@ -7,7 +7,7 @@ export interface SerieI{
     chapters: number;
     year: number;
     synopsis: string;
-    scoring: number;
+    scoring: [{email: string, vote: number}];
     image: string[];
     numberImages: number;
 }

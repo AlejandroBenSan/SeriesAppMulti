@@ -1,28 +1,4 @@
-<ion-menu contentId="main-content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Información de la App</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content class="ion-padding">
-    <p>Creador: <b>Alejandro Benítez Sánchez</b></p>
-    <p>Año: <b>2023</b></p>
-    <p>Diseño: <b>Ionic / Angular</b></p>
-  </ion-content>
-</ion-menu>
-
-<div class="ion-page" id="main-content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="end">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title>Por Categoría
-
-      </ion-title>
-      
-    </ion-toolbar>
-  </ion-header>
+<app-header></app-header>
 
 <ion-content class="colorFondo" [fullscreen]="true">
   <ion-header collapse="condense">
@@ -30,16 +6,24 @@
       <ion-title size="large">Categorías</ion-title>
     </ion-toolbar>
   </ion-header>
+
   <ion-content class="categoriasSlide">
-    <ion-slides class="slideCategorias" (ionSlideNextEnd)="filtarPorCategoriaPositiva()" (ionSlidePrevEnd)="filtarPorCategoriaNegativa()">
-      <ion-slide *ngFor="let c of categorias">
-        <label id="labelCategoria"><b>{{c}}</b></label>
+    <ion-slides class="slideCategorias">
+      <ion-slide *ngFor="let slide of slides">
+        <ion-chip  *ngFor="let c of slide"(click)="filtrar(c.nombre)" style="height: 120px; width: 150px;">
+          <ion-avatar >
+            <img src={{c.imagen}} />
+          </ion-avatar>
+          
+        </ion-chip>
+        
       </ion-slide>
     </ion-slides>
-  
+
   </ion-content>
   
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <h2 class="titulo">{{categoriaActiva}}</h2>
     <ion-card *ngFor="let s of seriesPorCategoria">
       <ion-slides class="objSlide">
         <ion-slide *ngFor="let imagen of s.image" (click)="serieSeleccionada=s;modal.present()">

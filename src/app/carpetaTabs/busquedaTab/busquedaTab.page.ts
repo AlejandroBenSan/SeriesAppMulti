@@ -60,7 +60,9 @@ export class BusquedaTabPage {
   //FLITRAMS POR EL NOMBRE
   busquedaNombre(){
     this.seriesFiltradas = this.series.filter(serie => {
-      return serie.title.toLowerCase().includes(this.nombreSerie.toLowerCase());
+      const nombreSerie = this.nombreSerie.toLowerCase();
+      const sinopsis = serie.synopsis.toLowerCase();
+      return serie.title.toLowerCase().includes(nombreSerie) || sinopsis.includes(nombreSerie);
     });
   }
 

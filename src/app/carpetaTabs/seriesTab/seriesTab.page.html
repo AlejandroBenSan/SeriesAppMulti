@@ -1,27 +1,6 @@
-<ion-menu contentId="main-content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Información de la App</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content class="ion-padding">
-    <p>Creador: <b>Alejandro Benítez Sánchez</b></p>
-    <p>Año: <b>2023</b></p>
-    <p>Diseño: <b>Ionic / Angular</b></p>
-  </ion-content>
-</ion-menu>
+<app-header></app-header>
 
-<div class="ion-page" id="main-content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="end">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title>Todas las series</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-content class="colorFondo" [fullscreen]="true">
+<ion-content class="colorFondo" [fullscreen]="true">
     <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
       <ion-card *ngFor="let s of series" (click)="serieSeleccionada=s;modal.present()">
         <ion-slides class="objSlide">
@@ -100,5 +79,4 @@
       </ion-content>
     </ng-template>
   </ion-modal>
-</div>
 

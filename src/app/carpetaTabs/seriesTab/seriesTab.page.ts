@@ -139,7 +139,7 @@ export class SeriesTabPage {
           role: 'Confirmar',
           handler: async () => {
             //EN EL CASO DE CONFIRMAR
-            if(!this.comprobarEmail(emailUser,this.serieVoto)){
+            if(this.comprobarEmail(emailUser,this.serieVoto)){
               try {
                 // Primero, hacemos una petición GET para obtener los datos de la serie
                 const respuesta = await fetch(`http://localhost:3000/api/obtenerSerie/${this.serieVoto._id}`);
